@@ -34,7 +34,7 @@ git clone https://github.com/chatojared06/border-crm.git
 cd border-crm
 ```
 
-### 2. Backend (API)
+### Backend (API)
 ```bash
 cd server
 npm install
@@ -42,7 +42,7 @@ npm run dev
 # El servidor correrá en http://localhost:3000
 ```
 
-### 3. Frontend (Cliente)
+###  Frontend (Cliente)
 ```bash
 cd client
 npm install
@@ -60,3 +60,11 @@ npm run dev
 
 ---
 Hecho con 💙 por [Jared](https://github.com/chatojared06)
+
+### Paso 2: Envía la corrección (El flujo de siempre)
+En tu terminal:
+
+```bash
+git add README.md
+git commit -m "docs: corregir formato y estilos del readme"
+git push
