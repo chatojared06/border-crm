@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    /* Configuración Base */
+    "target": "es2016",                                  /* Versión de JS a la que compilamos (compatible con Node moderno) */
+    "module": "commonjs",                                /* Estándar de módulos de Node.js (require/module.exports) */
+    "moduleResolution": "node",                          /* Cómo Node busca los archivos importados */
+    
+    /* Rutas de Archivos */
+    "rootDir": "./src",                                  /* Dónde vive nuestro código fuente */
+    "outDir": "./dist",                                  /* Dónde guardamos el código compilado para producción */
+    
+    /* Interoperabilidad */
+    "esModuleInterop": true,                             /* Permite importar módulos CommonJS como si fueran ESModules */
+    "forceConsistentCasingInFileNames": true,            /* Evita errores por mayúsculas/minúsculas en nombres de archivo */
+
+    /* Reglas Estrictas (Calidad de Código) */
+    "strict": true,                                      /* Activa todas las reglas estrictas de tipeado */
+    "skipLibCheck": true                                 /* Salta chequeo de tipos en librerías externas para ganar velocidad */
+  },
+  "include": ["src/**/*"],                               /* Incluir todo lo que esté en src */
+  "exclude": ["node_modules"]                            /* Ignorar node_modules */
+}
