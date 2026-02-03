@@ -1,0 +1,62 @@
+# BorderCRM
+
+**BorderCRM** es una plataforma SaaS B2B diseñada para optimizar el flujo de ventas y la gestión de prospectos (Leads). Este proyecto es una solución Fullstack construida con estándares de industria, enfocada en rendimiento, tipado estricto y escalabilidad.
+
+🚧 **Estado del Proyecto:** En desarrollo activo (Fase de Arquitectura).
+
+## 🛠 Tech Stack
+
+**Frontend:**
+- React + Vite
+- TypeScript
+- Tailwind CSS
+- TanStack Query (Estado del servidor)
+- React Hook Form + Zod (Validaciones)
+
+**Backend:**
+- Node.js + Express
+- TypeScript
+- PostgreSQL + Prisma ORM
+- JWT Authentication
+
+**DevOps & Tools:**
+- Docker (Próximamente)
+- Eslint + Prettier
+- Monorepo Architecture
+
+## 🚀 Instalación y Ejecución Local
+
+Sigue estos pasos para levantar el entorno de desarrollo:
+
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/chatojared06/border-crm.git
+cd border-crm
+```
+
+### 2. Backend (API)
+```bash
+cd server
+npm install
+npm run dev
+# El servidor correrá en http://localhost:3000
+```
+
+### 3. Frontend (Cliente)
+```bash
+cd client
+npm install
+npm run dev
+# La UI correrá en http://localhost:5173
+```
+
+## 📝 Roadmap
+
+- [x] Arquitectura inicial y configuración del Monorepo.
+- [ ] Diseño de Base de Datos y configuración de Prisma.
+- [ ] Sistema de Autenticación (JWT).
+- [ ] CRUD de Leads y Pipeline.
+- [ ] Integración de IA para correos de seguimiento.
+
+---
+Hecho con 💙 por [Jared](https://github.com/chatojared06)
