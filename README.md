@@ -53,7 +53,7 @@ npm run dev
 ## 📝 Roadmap
 
 - [x] Arquitectura inicial y configuración del Monorepo.
-- [ ] Diseño de Base de Datos y configuración de Prisma.
+- [x] Diseño de Base de Datos y configuración de Prisma.
 - [ ] Sistema de Autenticación (JWT).
 - [ ] CRUD de Leads y Pipeline.
 - [ ] Integración de IA para correos de seguimiento.
