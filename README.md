@@ -39,7 +39,7 @@ cd border-crm
 cd server
 npm install
 npm run dev
-# El servidor correrá en http://localhost:3000
+# El servidor correrá en http://localhost:5000
 ```
 
 ###  Frontend (Cliente)
@@ -54,10 +54,10 @@ npm run dev
 
 - [x] Arquitectura inicial y configuración del Monorepo.
 - [x] Diseño de Base de Datos y configuración de Prisma.
-- [ ] Sistema de Autenticación (JWT).
+- [x] Sistema de Autenticación (JWT).
+- [ ] Conexión Frontend-Backend (Login en React). 
 - [ ] CRUD de Leads y Pipeline.
 - [ ] Integración de IA para correos de seguimiento.
-
 ---
 Hecho con 💙 por [Jared](https://github.com/chatojared06)
 
