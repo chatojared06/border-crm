@@ -55,7 +55,7 @@ npm run dev
 - [x] Arquitectura inicial y configuración del Monorepo.
 - [x] Diseño de Base de Datos y configuración de Prisma.
 - [x] Sistema de Autenticación (JWT).
-- [ ] Conexión Frontend-Backend (Login en React). 
+- [x] Conexión Frontend-Backend (Login en React). 
 - [ ] CRUD de Leads y Pipeline.
 - [ ] Integración de IA para correos de seguimiento.
 ---

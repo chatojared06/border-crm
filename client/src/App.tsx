@@ -1,35 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'sonner';
+import LoginPage from './pages/LoginPage';
+
+// Placeholder temporal para el Dashboard
+const Dashboard = () => <div className="p-10 text-center"><h1>Bienvenido al Dashboard 🚀</h1></div>;
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      {/* El Toaster sirve para mostrar notificaciones flotantes */}
+      <Toaster position="top-right" richColors />
+      
+      <Routes>
+        {/* Ruta pública: Login */}
+        <Route path="/login" element={<LoginPage />} />
+        
+        {/* Ruta privada: Dashboard (Por ahora abierta) */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        
+        {/* Si entran a la raíz, redirigir al login */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
