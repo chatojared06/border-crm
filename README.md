@@ -56,6 +56,7 @@ npm run dev
 - [x] Diseño de Base de Datos y configuración de Prisma.
 - [x] Sistema de Autenticación (JWT).
 - [x] Conexión Frontend-Backend (Login en React). 
+- [x] Estructura del Dashboard y Sidebar (Layout Principal)
 - [ ] CRUD de Leads y Pipeline.
 - [ ] Integración de IA para correos de seguimiento.
 ---

@@ -1,25 +1,40 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import LoginPage from './pages/LoginPage';
-
-// Placeholder temporal para el Dashboard
-const Dashboard = () => <div className="p-10 text-center"><h1>Bienvenido al Dashboard 🚀</h1></div>;
+import DashboardPage from './pages/DashboardPage';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { Layout } from './components/Layout';
 
 function App() {
   return (
     <BrowserRouter>
-      {/* El Toaster sirve para mostrar notificaciones flotantes */}
+      {/* Toaster: Las notificaciones flotantes (ej: "Bienvenido") */}
       <Toaster position="top-right" richColors />
       
       <Routes>
-        {/* Ruta pública: Login */}
+        {/* 1. RUTA PÚBLICA: Cualquiera puede entrar aquí */}
         <Route path="/login" element={<LoginPage />} />
         
-        {/* Ruta privada: Dashboard (Por ahora abierta) */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* 2. RUTAS PRIVADAS*/}
+        <Route element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }>
+            {/* Estas son las páginas que se verán DENTRO del Layout */}
+            <Route path="/dashboard" element={<DashboardPage />} />
+            
+            {/* Placeholders para las páginas que haremos después */}
+            <Route path="/leads" element={<div className="p-8">Aquí irán los Leads 👥</div>} />
+            <Route path="/pipeline" element={<div className="p-8">Aquí irá el Pipeline 📊</div>} />
+            <Route path="/settings" element={<div className="p-8">Configuración ⚙️</div>} />
+        </Route>
         
-        {/* Si entran a la raíz, redirigir al login */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        {/* 3. RUTA POR DEFECTO:
+            Si alguien entra a la raíz "/", lo mandamos directo al dashboard 
+            (y si no tiene login, el guardia lo mandará al login) 
+        */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
   );
