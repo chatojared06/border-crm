@@ -1,9 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
-import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Layout } from './components/Layout';
+import LoginPage from './pages/LoginPage';
+import DashboardPage from './pages/DashboardPage';
+import LeadsPage from './pages/LeadsPage';
+import NewLeadPage from './pages/NewLeadPage';
+
 
 function App() {
   return (
@@ -25,7 +28,8 @@ function App() {
             <Route path="/dashboard" element={<DashboardPage />} />
             
             {/* Placeholders para las páginas que haremos después */}
-            <Route path="/leads" element={<div className="p-8">Aquí irán los Leads 👥</div>} />
+            <Route path="/leads" element={<LeadsPage />} />
+            <Route path="/leads/new" element={<NewLeadPage />} />
             <Route path="/pipeline" element={<div className="p-8">Aquí irá el Pipeline 📊</div>} />
             <Route path="/settings" element={<div className="p-8">Configuración ⚙️</div>} />
         </Route>

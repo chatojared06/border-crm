@@ -1,6 +1,29 @@
+import { useEffect, useState } from "react";
 import { DollarSign, Users, Briefcase } from "lucide-react";
 
+// Definimos la "forma" de un Lead en TypeScript para que nos ayude a autocompletar
+interface Lead {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  source: string;
+  status: string;
+}
+
 export default function DashboardPage() {
+  
+  // Aquí guardaremos la lista de leads que nos dio el Backend
+  const [leads, setLeads] = useState<Lead[]>([]);
+  
+  // useEffect se ejecuta automáticamente cuando entras a la página
+  useEffect(() => {
+    fetch("http://localhost:5000/api/leads")
+      .then((respuesta) => respuesta.json())
+      .then((datos) => setLeads(datos))
+      .catch((error) => console.error("Error al cargar leads:", error));
+  }, []);
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-slate-800 mb-6">Resumen General</h1>
@@ -15,7 +38,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <p className="text-sm text-slate-500 font-medium">Total Leads</p>
-              <h3 className="text-2xl font-bold text-slate-800">0</h3>
+              <h3 className="text-2xl font-bold text-slate-800">{leads.length}</h3>
             </div>
           </div>
         </div>
