@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 
 // Definimos la "forma" de un Lead en TypeScript para que nos ayude a autocompletar
@@ -91,13 +91,26 @@ export default function LeadsPage() {
                     </span>
                   </td>
                   <td className="p-4">
-                    <button 
-                      onClick={() => handleDelete(lead.id)}
-                      className="text-red-500 hover:text-red-700 transition-colors p-2 rounded-lg hover:bg-red-50"
-                      title="Eliminar prospecto"
-                    >
-                      <Trash2 size={18} />
-                    </button>
+                    <div className="flex items-center gap-2">
+                      
+
+                      <Link 
+                        to={`/leads/edit/${lead.id}`}
+                        className="text-slate-400 hover:text-blue-600 transition-colors p-2 rounded-full hover:bg-blue-50"
+                        title="Editar prospecto"
+                      >
+                        <Pencil size={18} />
+                      </Link>
+                      
+                      <button 
+                        onClick={() => handleDelete(lead.id)}
+                        className="text-slate-400 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-red-50"
+                        title="Eliminar prospecto"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                      
+                    </div>
                   </td>
                 </tr>
               ))

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createLead, deleteLead, getLeads } from '../controllers/lead.controller';
+import { createLead, deleteLead, getLeads, updateLead } from '../controllers/lead.controller';
 
 const router = Router();
 
@@ -11,5 +11,8 @@ router.post('/', createLead);
 
 // 3. Cuando alguien haga una petición DELETE con un ID, borramos ese lead
 router.delete('/:id', deleteLead);
+
+// 4. Cuando alguien haga una petición PUT con un ID, actualizamos ese lead
+router.put('/:id', updateLead);
 
 export default router;

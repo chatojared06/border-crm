@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import LeadsPage from './pages/LeadsPage';
 import NewLeadPage from './pages/NewLeadPage';
+import EditLeadPage from './pages/EditLeadPage';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             {/* Placeholders para las páginas que haremos después */}
             <Route path="/leads" element={<LeadsPage />} />
             <Route path="/leads/new" element={<NewLeadPage />} />
+            <Route path="/leads/edit/:id" element={<EditLeadPage />} />
             <Route path="/pipeline" element={<div className="p-8">Aquí irá el Pipeline 📊</div>} />
             <Route path="/settings" element={<div className="p-8">Configuración ⚙️</div>} />
         </Route>

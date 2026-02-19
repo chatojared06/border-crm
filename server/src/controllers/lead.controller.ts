@@ -64,3 +64,33 @@ export const deleteLead = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Hubo un error al eliminar el prospecto" });
   }
 };
+
+// 4. Función para ACTUALIZAR (Editar) un Lead
+export const updateLead = async (req: Request, res: Response) => {
+  try {
+    // 1. Sacamos el ID de la URL (ej: /api/leads/5)
+    const { id } = req.params;
+    
+    // 2. Sacamos los nuevos datos que nos envía el Frontend en el cuerpo (body)
+    const { name, email, phone, source, status } = req.body;
+
+    // 3. Le decimos a Prisma que busque ese ID y reemplace sus datos
+    const updatedLead = await prisma.lead.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        name,
+        email,
+        phone,
+        source,
+        status, // ¡Muy importante para el Pipeline después!
+      },
+    });
+
+    res.json(updatedLead);
+  } catch (error) {
+    console.error("Error al actualizar lead:", error);
+    res.status(500).json({ message: "Hubo un error al actualizar el prospecto" });
+  }
+};
