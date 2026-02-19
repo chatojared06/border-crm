@@ -7,6 +7,7 @@ import DashboardPage from './pages/DashboardPage';
 import LeadsPage from './pages/LeadsPage';
 import NewLeadPage from './pages/NewLeadPage';
 import EditLeadPage from './pages/EditLeadPage';
+import PipelinePage from './pages/PipelinePage';
 
 
 function App() {
@@ -32,7 +33,7 @@ function App() {
             <Route path="/leads" element={<LeadsPage />} />
             <Route path="/leads/new" element={<NewLeadPage />} />
             <Route path="/leads/edit/:id" element={<EditLeadPage />} />
-            <Route path="/pipeline" element={<div className="p-8">Aquí irá el Pipeline 📊</div>} />
+            <Route path="/pipeline" element={<PipelinePage />} />
             <Route path="/settings" element={<div className="p-8">Configuración ⚙️</div>} />
         </Route>
         

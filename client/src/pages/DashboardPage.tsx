@@ -15,7 +15,14 @@ export default function DashboardPage() {
   
   // Aquí guardaremos la lista de leads que nos dio el Backend
   const [leads, setLeads] = useState<Lead[]>([]);
-  
+
+  //Calcula los que están En Pipeline
+  const leadsEnPipeline = leads.filter(lead => lead.status !== "CERRADO").length;
+
+  //Calcula los que están Cerrados y las ventas del mes
+  const leadsCerrados = leads.filter(lead => lead.status === "CERRADO").length;
+  const ventasMes = leadsCerrados * 1500;
+
   // useEffect se ejecuta automáticamente cuando entras a la página
   useEffect(() => {
     fetch("http://localhost:5000/api/leads")
@@ -51,7 +58,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <p className="text-sm text-slate-500 font-medium">En Pipeline</p>
-              <h3 className="text-2xl font-bold text-slate-800">0</h3>
+              <h3 className="text-2xl font-bold text-slate-800">{leadsEnPipeline}</h3>
             </div>
           </div>
         </div>
@@ -64,7 +71,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <p className="text-sm text-slate-500 font-medium">Ventas Mes</p>
-              <h3 className="text-2xl font-bold text-slate-800">$0</h3>
+              <h3 className="text-2xl font-bold text-slate-800">${ventasMes}</h3>
             </div>
           </div>
         </div>
