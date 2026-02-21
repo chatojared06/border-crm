@@ -68,11 +68,16 @@ export const login = async (req: Request, res: Response) => {
         }
 
         // 3. Generar un nuevo Token
+        
+        // El código corregido:
         const token = jwt.sign(
-            { userId: user.id },
-            process.env.JWT_SECRET || 'secreto_temporal',
-            { expiresIn: '1h' }
-        );
+        { 
+            userId: user.id, 
+            email: user.email // ✨ ¡Agregamos esta línea! ✨
+        }, 
+        process.env.JWT_SECRET as string,
+        { expiresIn: '1d' }
+);
 
         // 4. Responder con el token
         res.json({ message: 'Login exitoso', token });

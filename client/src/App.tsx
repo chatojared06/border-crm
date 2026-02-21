@@ -8,6 +8,7 @@ import LeadsPage from './pages/LeadsPage';
 import NewLeadPage from './pages/NewLeadPage';
 import EditLeadPage from './pages/EditLeadPage';
 import PipelinePage from './pages/PipelinePage';
+import SettingsPage from './pages/SettingsPage';
 
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
             <Route path="/leads/new" element={<NewLeadPage />} />
             <Route path="/leads/edit/:id" element={<EditLeadPage />} />
             <Route path="/pipeline" element={<PipelinePage />} />
-            <Route path="/settings" element={<div className="p-8">Configuración ⚙️</div>} />
+            <Route path="/settings" element={<SettingsPage />} />
         </Route>
         
         {/* 3. RUTA POR DEFECTO:

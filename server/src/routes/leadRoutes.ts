@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { createLead, deleteLead, getLeads, updateLead } from '../controllers/lead.controller';
+import { generarCorreoVentas } from '../controllers/aiController';
 
 const router = Router();
 
@@ -14,5 +15,8 @@ router.delete('/:id', deleteLead);
 
 // 4. Cuando alguien haga una petición PUT con un ID, actualizamos ese lead
 router.put('/:id', updateLead);
+
+// 5. Nueva ruta para generar el correo de ventas con IA
+router.post('/generar-correo', generarCorreoVentas);
 
 export default router;
