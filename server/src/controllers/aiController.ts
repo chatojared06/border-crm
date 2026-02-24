@@ -3,15 +3,12 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export const generarCorreoVentas = async (req: Request, res: Response) => {
   try {
-    // Recibimos los datos del cliente desde el Frontend
     const { name, source, status } = req.body;
 
-    // 1. Despertar a Gemini con tu llave secreta
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
-    // Usamos el modelo flash porque es rapidísimo para textos cortos
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    // 2. El "Prompt": Le damos instrucciones estrictas a la IA de cómo actuar
     const prompt = `
       Eres un vendedor experto en tecnología y persuasión. 
       Redacta un correo electrónico de ventas corto, profesional y muy empático 
@@ -26,11 +23,9 @@ export const generarCorreoVentas = async (req: Request, res: Response) => {
       Firma el correo como "El equipo de BorderCRM".
     `;
 
-    // 3. Mandamos el mensaje y esperamos la respuesta de la IA
     const result = await model.generateContent(prompt);
     const textoGenerado = result.response.text();
 
-    // 4. Se lo devolvemos al Frontend
     res.json({ email: textoGenerado });
 
   } catch (error) {
