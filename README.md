@@ -60,8 +60,9 @@ npm run dev
 - [x] CRUD de Leads: Crear (Formulario). 
 - [x] CRUD de Leads: Leer (Tabla y Dashboard). 
 - [x] CRUD de Leads: Borrar (Eliminación dinámica). 
-- [ ] CRUD de Leads: Editar (Actualizar datos). 
-- [ ] Integración de IA.
+- [x] CRUD de Leads: Editar (Actualizar datos). 
+- [x] Integración de IA.
+- [x] Diseño responsivo.
 ---
 Hecho con 💙 por [Jared](https://github.com/chatojared06)
 

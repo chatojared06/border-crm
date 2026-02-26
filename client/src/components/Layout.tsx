@@ -3,7 +3,7 @@ import { Sidebar } from "./Sidebar";
 
 export const Layout = () => {
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden">
+    <div className="flex mt-16 md:mt-0 h-screen bg-slate-50 overflow-hidden">
       {/* 1. Sidebar Fija a la izquierda */}
       <Sidebar />
 
