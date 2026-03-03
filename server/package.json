@@ -2,9 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
+"scripts": {
     "dev": "nodemon src/index.ts",
-    "build": "tsc",
+    "build": "npx prisma generate && tsc",
     "start": "node dist/index.js"
   },
   "keywords": [],
