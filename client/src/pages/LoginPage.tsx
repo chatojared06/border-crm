@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { Lock, Mail, ArrowRight, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -11,10 +11,10 @@ interface LoginForm {
 }
 
 export default function LoginPage() {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginForm>();
   const navigate = useNavigate();
 
-  const onSubmit = async (data: LoginForm) => {
+  const onSubmit: SubmitHandler<LoginForm> = async (data) => {
     try {
       // 1. Enviar datos al backend
       const response = await api.post("/auth/login", data);
