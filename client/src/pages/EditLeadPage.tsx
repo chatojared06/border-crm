@@ -30,7 +30,7 @@ export default function EditLeadPage() {
   const [generando, setGenerando] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/leads")
+    fetch("https://border-crm.onrender.com/api/leads")
       .then((res) => res.json())
       .then((datos) => {
         const leadActual = datos.find((l: Lead) => l.id === Number(id));

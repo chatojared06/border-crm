@@ -26,7 +26,7 @@ export default function NewLeadPage() {
     e.preventDefault(); // Evita que la página recargue
 
     try {
-      const respuesta = await fetch("http://localhost:5000/api/leads", {
+      const respuesta = await fetch("https://border-crm.onrender.com/api/leads", {
         method: "POST", // Le decimos al backend "Quiero CREAR algo"
         headers: {
           "Content-Type": "application/json",

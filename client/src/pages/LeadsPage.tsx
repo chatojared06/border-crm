@@ -18,7 +18,7 @@ export default function LeadsPage() {
 
   // useEffect se ejecuta automáticamente cuando entras a la página
   useEffect(() => {
-    fetch("http://localhost:5000/api/leads")
+    fetch("https://border-crm.onrender.com/api/leads")
       .then((respuesta) => respuesta.json())
       .then((datos) => setLeads(datos))
       .catch((error) => console.error("Error al cargar leads:", error));
@@ -30,7 +30,7 @@ export default function LeadsPage() {
   if (!confirmar) return;
 
   try {
-    const respuesta = await fetch(`http://localhost:5000/api/leads/${id}`, {
+    const respuesta = await fetch(`https://border-crm.onrender.com/api/leads/${id}`, {
         method: "DELETE",
     });
     if (respuesta.ok) {

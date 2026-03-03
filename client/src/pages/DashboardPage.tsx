@@ -25,7 +25,7 @@ export default function DashboardPage() {
 
   // useEffect se ejecuta automáticamente cuando entras a la página
   useEffect(() => {
-    fetch("http://localhost:5000/api/leads")
+    fetch("https://border-crm.onrender.com/api/leads")
       .then((respuesta) => respuesta.json())
       .then((datos) => setLeads(datos))
       .catch((error) => console.error("Error al cargar leads:", error));

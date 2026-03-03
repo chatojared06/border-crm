@@ -39,7 +39,7 @@ cd border-crm
 cd server
 npm install
 npm run dev
-# El servidor correrá en http://localhost:5000
+# El servidor correrá en https://border-crm.onrender.com
 ```
 
 ###  Frontend (Cliente)
@@ -47,7 +47,7 @@ npm run dev
 cd client
 npm install
 npm run dev
-# La UI correrá en http://localhost:5173
+# La UI correrá en https://border-crm.onrender.com
 ```
 
 ## 📝 Roadmap
