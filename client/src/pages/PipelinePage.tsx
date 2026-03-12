@@ -73,7 +73,7 @@ export default function PipelinePage() {
                   <div 
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={`min-w-[300px] rounded-xl p-4 border flex flex-col transition-colors ${
+                    className={`min-w-75 rounded-xl p-4 border flex flex-col transition-colors ${
                       snapshot.isDraggingOver ? "bg-blue-50 border-blue-200" : "bg-slate-50 border-slate-200"
                     }`}
                     style={{ minHeight: "500px" }} // Importante para poder soltar en columnas vacías

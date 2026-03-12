@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
+import AIAgentChat from "./AIAgentChat";
 
 export const Layout = () => {
   return (
@@ -8,12 +9,15 @@ export const Layout = () => {
       <Sidebar />
 
       {/* 2. Área de Contenido Principal (Scrollable) */}
-      <main className="flex-1 overflow-y-auto p-8">
+      <main className="flex-1 overflow-y-auto p-8 pb-28">
         <div className="max-w-7xl mx-auto">
           {/* Aquí se renderizarán Dashboard, Leads, etc. */}
           <Outlet />
         </div>
       </main>
+
+      {/* 3. widget flotante de IA */}
+      <AIAgentChat />
     </div>
   );
 };
