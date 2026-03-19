@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+body {
+  @apply bg-slate-50; /* ¡Esto pinta el fondo base para que no haya parches blancos! */
+}

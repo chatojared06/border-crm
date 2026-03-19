@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { BrainCircuit, ChevronDown, SendHorizontal, X, User } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import api from '../lib/axios';
 
 // 1. Definimos la forma de un Mensaje para TypeScript
 type Message = {
@@ -34,27 +36,44 @@ export default function AIAgentChat() {
   }, [messages, isThinking]);
 
  
-  const handleSendMessage = () => {
-    if (!inputText.trim()) return;
-    const newMessage: Message = {
-        id: Date.now(), 
-        text: inputText,
-        sender: 'user'
-    };
+  const handleSendMessage = async() => {
+   try {
+     if (!inputText.trim()) return;
+     const newMessage: Message = {
+         id: Date.now(), 
+         text: inputText,
+         sender: 'user'
+     };
 
-    setMessages([...messages, newMessage]);
-    setInputText("");
-    setIsThinking(true);
+      setMessages(prev => [...prev, newMessage]);
+      setInputText('');
+      setIsThinking(true);
 
-    setTimeout(() => {
-      setMessages(prev => [...prev, {
-        id: Date.now(),
-        text: "Entendido. Estoy analizando tu solicitud.",
+      // Descargamos los leads frescos en este preciso momento 
+      const leadsResponse = await api.get('/leads'); // Llamamos a tu ruta GET de leads
+      const leadsActualizados = leadsResponse.data;
+
+      // Le mandamos el mensaje a la IA junto con la base de datos fresca
+      const respuesta = await api.post('/leads/chat', {
+        message: inputText,
+        leads: leadsActualizados // <--- ¡Le inyectamos los datos reales!
+      });
+
+      const aiMessage: Message = {
+        id: Date.now() + 1,
+        text: respuesta.data.text, 
         sender: 'ai'
-      }]);
-      
+      };
+
+  
+      setMessages(prev => [...prev, aiMessage]);
       setIsThinking(false);
-    }, 1500);
+   
+   } catch (error) {
+      console.error("Error al enviar el mensaje:", error);
+      setIsThinking(false);
+   }
+
   };
 
   return (
@@ -94,7 +113,7 @@ export default function AIAgentChat() {
                   ? 'bg-blue-600 text-white border-blue-700 rounded-tr-none' 
                   : 'bg-white border-slate-100 text-slate-700 rounded-tl-none'}`}
               >
-                {msg.text}
+                {msg.sender === 'ai' ? <ReactMarkdown>{msg.text}</ReactMarkdown> : msg.text}
               </div>
             </div>
           ))}
@@ -138,12 +157,11 @@ export default function AIAgentChat() {
       {/* --- EL BOTÓN DISPARADOR --- */}
       <button 
         onClick={() => setIsOpen(true)}
-        className={`absolute bottom-0 right-0 flex items-center gap-3 bg-blue-600 text-white px-6 py-4 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 ease-in-out origin-center
+        className={`absolute bottom-0 right-0 flex items-center gap-3 bg-blue-600 text-white md:px-3 md:py-3 px-4 py-4 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 ease-in-out origin-center
         ${isOpen ? 'opacity-0 scale-50 pointer-events-none' : 'opacity-100 scale-100 pointer-events-auto hover:scale-105'}`}
       >
         <BrainCircuit size={24} />
-        <span className="font-bold text-lg">Hablar con Agente</span>
-        <ChevronDown size={20} className="text-blue-200" />
+        <span className="font-bold text-lg hidden md:inline">Hablar con Agente</span>
       </button>
 
     </div>

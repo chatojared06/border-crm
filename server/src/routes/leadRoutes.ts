@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { createLead, deleteLead, getLeads, updateLead } from '../controllers/lead.controller';
-import { generarCorreoVentas } from '../controllers/aiController';
+import { generarCorreoVentas, generarRespuestaChat } from '../controllers/aiController';
 
 const router = Router();
 
@@ -18,5 +18,8 @@ router.put('/:id', updateLead);
 
 // 5. Nueva ruta para generar el correo de ventas con IA
 router.post('/generar-correo', generarCorreoVentas);
+
+// 6. Nueva ruta para generar respuestas de chat con IA
+router.post('/chat', generarRespuestaChat);
 
 export default router;
