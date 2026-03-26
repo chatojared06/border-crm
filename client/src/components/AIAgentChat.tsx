@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { BrainCircuit, ChevronDown, SendHorizontal, X, User } from 'lucide-react';
+import { BrainCircuit, SendHorizontal, X, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import api from '../lib/axios';
 
