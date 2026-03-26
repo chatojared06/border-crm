@@ -2,8 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
- // baseURL: "https://border-crm.onrender.com/api", // La dirección de tu backend
-  baseURL: "http://localhost:5000/api", 
+  baseURL: "https://border-crm.onrender.com/api" 
 });
 
 // Interceptor: Antes de cada petición, pega el token si existe
