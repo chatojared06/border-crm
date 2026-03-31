@@ -5,6 +5,7 @@ import { Layout } from './components/Layout';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import LeadsPage from './pages/LeadsPage';
+import LeadDetailPage from './pages/LeadDetailPage';
 import NewLeadPage from './pages/NewLeadPage';
 import EditLeadPage from './pages/EditLeadPage';
 import PipelinePage from './pages/PipelinePage';
@@ -32,6 +33,7 @@ function App() {
             
             {/* Placeholders para las páginas que haremos después */}
             <Route path="/leads" element={<LeadsPage />} />
+            <Route path="/leads/:id" element={<LeadDetailPage />} />
             <Route path="/leads/new" element={<NewLeadPage />} />
             <Route path="/leads/edit/:id" element={<EditLeadPage />} />
             <Route path="/pipeline" element={<PipelinePage />} />

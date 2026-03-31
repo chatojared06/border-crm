@@ -61,7 +61,7 @@ export default function LeadsPage() {
       <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-slate-50 border-b border-slate-100 text-slate-500 text-sm uppercase tracking-wider">
+            <tr className="bg-slate-50 border-b border-slate-100 text-slate-500 text-xs md:text-sm uppercase tracking-wider">
               <th className="p-4 font-medium">Nombre</th>
               <th className="p-4 font-medium">Contacto</th>
               <th className="p-4 font-medium">Origen</th>
@@ -79,12 +79,12 @@ export default function LeadsPage() {
             ) : (
               leads.map((lead) => (
                 <tr key={lead.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="p-4 font-medium text-slate-800">{lead.name}</td>
+                  <td className="p-4 font-medium text-sm text-slate-800">{lead.name}</td>
                   <td className="p-4">
-                    <div className="text-slate-800">{lead.email}</div>
-                    <div className="text-sm text-slate-500">{lead.phone || "Sin teléfono"}</div>
+                    <div className="text-slate-800 text-sm">{lead.email}</div>
+                    <div className="text-xs md:text-sm text-slate-500">{lead.phone || "Sin teléfono"}</div>
                   </td>
-                  <td className="p-4 text-slate-600">{lead.source || "N/A"}</td>
+                  <td className="p-4 text-sm text-slate-600">{lead.source || "N/A"}</td>
                   <td className="p-4">
                     <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
                       {lead.status}
