@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -13,6 +14,7 @@ interface Lead {
 }
 
 export default function LeadsPage() {
+  const navigate = useNavigate();
   // Aquí guardaremos la lista de leads que nos dé el Backend
   const [leads, setLeads] = useState<Lead[]>([]);
 
@@ -58,15 +60,14 @@ export default function LeadsPage() {
       </div>
 
       {/* Tabla de Leads */}
+
       <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-slate-50 border-b border-slate-100 text-slate-500 text-xs md:text-sm uppercase tracking-wider">
               <th className="p-4 font-medium">Nombre</th>
-              <th className="p-4 font-medium">Contacto</th>
-              <th className="p-4 font-medium">Origen</th>
-              <th className="p-4 font-medium">Estado</th>
-              <th className="p-4 font-medium">Acciones</th>
+              <th className="p-4 font-medium text-center">Estado</th>
+              <th className="p-4 font-medium text-center">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -78,32 +79,34 @@ export default function LeadsPage() {
               </tr>
             ) : (
               leads.map((lead) => (
-                <tr key={lead.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="p-4 font-medium text-sm text-slate-800">{lead.name}</td>
-                  <td className="p-4">
-                    <div className="text-slate-800 text-sm">{lead.email}</div>
-                    <div className="text-xs md:text-sm text-slate-500">{lead.phone || "Sin teléfono"}</div>
-                  </td>
-                  <td className="p-4 text-sm text-slate-600">{lead.source || "N/A"}</td>
-                  <td className="p-4">
+
+                <tr key={lead.id} className="hover:bg-slate-50 transition-colors cursor-pointer"
+                onClick={() => navigate(`/leads/${lead.id}`)}>
+                  <td className="p-4"> {lead.name}</td>
+                  <td className="p-4 text-center">
                     <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
                       {lead.status}
                     </span>
                   </td>
+
                   <td className="p-4">
-                    <div className="flex items-center gap-2">
+                    <div className="flex justify-center items-center gap-2">
                       
 
-                      <Link 
-                        to={`/leads/edit/${lead.id}`}
-                        className="text-slate-400 hover:text-blue-600 transition-colors p-2 rounded-full hover:bg-blue-50"
-                        title="Editar prospecto"
-                      >
-                        <Pencil size={18} />
-                      </Link>
+                    <Link 
+                      to={`/leads/edit/${lead.id}`}
+                      onClick={(e) => e.stopPropagation()} 
+                      className="text-slate-400 hover:text-blue-600 transition-colors p-2 rounded-full hover:bg-blue-50"
+                      title="Editar prospecto"
+                    >
+                      <Pencil size={18} />
+                    </Link>
                       
                       <button 
-                        onClick={() => handleDelete(lead.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();   
+                          handleDelete(lead.id); 
+                        }}
                         className="text-slate-400 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-red-50"
                         title="Eliminar prospecto"
                       >
