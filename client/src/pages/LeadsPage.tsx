@@ -51,12 +51,19 @@ export default function LeadsPage() {
     <div>
       {/* Cabecera de la página */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-slate-800">Directorio de Leads</h1>
-        <Link to="/leads/new"
-        className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
-          <Plus size={20} />
-          Nuevo Lead
-        </Link>
+        <h1 className="text-2xl font-bold text-slate-800">Datos del Lead</h1>
+        
+        <div className="flex gap-2">
+
+          {/* Botón de Añadir Lead */}
+          <button
+            className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 transition-colors text-sm font-medium shadow-sm"
+            title="Añadir Lead"
+          >
+            <Plus size={16} />
+            <span className="hidden sm:inline">Añadir Lead</span>
+          </button>
+        </div>
       </div>
 
       {/* Tabla de Leads */}
