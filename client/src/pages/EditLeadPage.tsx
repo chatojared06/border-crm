@@ -75,7 +75,7 @@ export default function EditLeadPage() {
               required
               value={formData.name}
               onChange={handleChange}
-              className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" 
+              className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-medium text-slate-800" 
             />
           </div>
           
@@ -87,7 +87,7 @@ export default function EditLeadPage() {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" 
+              className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-medium text-slate-800" 
             />
           </div>
 
@@ -99,7 +99,7 @@ export default function EditLeadPage() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" 
+                className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-medium text-slate-800" 
               />
             </div>
 
@@ -107,9 +107,9 @@ export default function EditLeadPage() {
               <label className="block text-sm font-medium text-slate-700 mb-1">Origen</label>
               <select 
                 name="source"
-                value={formData.source}
+                value= {formData.source}
                 onChange={handleChange}
-                className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white"
+                className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white font-medium text-slate-800"
               >
                 <option value="Web">Página Web</option>
                 <option value="Referido">Referido</option>
@@ -121,11 +121,11 @@ export default function EditLeadPage() {
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Estado del Lead</label>
-            <select name="status" value={formData.status} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white">
-              <option value="NUEVO">Nuevo</option>
-              <option value="CONTACTADO">Contactado</option>
-              <option value="NEGOCIACION">En Negociación</option>
-              <option value="CERRADO">Cerrado / Ganado</option>
+            <select name="status" value={formData.status} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white font-medium text-slate-800">
+              <option className="font-medium text-slate-800" value="NUEVO">Nuevo</option>
+              <option className="font-medium text-slate-800" value="CONTACTADO">Contactado</option>
+              <option className="font-medium text-slate-800" value="NEGOCIACION">En Negociación</option>
+              <option className="font-medium text-slate-800" value="CERRADO">Cerrado / Ganado</option>
             </select>
           </div>
 

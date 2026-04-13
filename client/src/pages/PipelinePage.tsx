@@ -3,6 +3,7 @@ import api from "../lib/axios";
 import { toast } from "sonner";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import type { DropResult } from "@hello-pangea/dnd";
+import { useNavigate } from "react-router-dom";
 
 interface Lead {
   id: number;
@@ -16,6 +17,7 @@ interface Lead {
 const COLUMNAS = ["NUEVO", "CONTACTADO", "NEGOCIACION", "CERRADO"];
 
 export default function PipelinePage() {
+  const navigate = useNavigate();
   const [leads, setLeads] = useState<Lead[]>([]);
 
   useEffect(() => {
@@ -61,7 +63,8 @@ export default function PipelinePage() {
       
       {/* Capa 1: El Contexto General */}
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex gap-6 overflow-x-auto pb-4 flex-1 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6
+       items-start">
           
           {COLUMNAS.map((columna) => {
             const leadsEnColumna = leads.filter(lead => lead.status === columna);
@@ -73,7 +76,7 @@ export default function PipelinePage() {
                   <div 
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={`min-w-75 rounded-xl p-4 border flex flex-col transition-colors ${
+                    className={`min-w-0 w-full rounded-xl p-4 border flex flex-col transition-colors ${
                       snapshot.isDraggingOver ? "bg-blue-50 border-blue-200" : "bg-slate-50 border-slate-200"
                     }`}
                     style={{ minHeight: "500px" }} // Importante para poder soltar en columnas vacías
@@ -95,6 +98,7 @@ export default function PipelinePage() {
                         <Draggable key={lead.id} draggableId={lead.id.toString()} index={index}>
                           {(provided, snapshot) => (
                             <div
+                            onClick={() => navigate(`/leads/${lead.id}`)}
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}

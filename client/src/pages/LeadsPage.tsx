@@ -56,13 +56,14 @@ export default function LeadsPage() {
         <div className="flex gap-2">
 
           {/* Botón de Añadir Lead */}
-          <button
+          <Link
+            to="/leads/new"
             className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 transition-colors text-sm font-medium shadow-sm"
             title="Añadir Lead"
           >
             <Plus size={16} />
             <span className="hidden sm:inline">Añadir Lead</span>
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -89,7 +90,7 @@ export default function LeadsPage() {
 
                 <tr key={lead.id} className="hover:bg-slate-50 transition-colors cursor-pointer"
                 onClick={() => navigate(`/leads/${lead.id}`)}>
-                  <td className="p-4"> {lead.name}</td>
+                  <td className="p-4 font-medium text-slate-800"> {lead.name}</td>
                   <td className="p-4 text-center">
                     <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
                       {lead.status}

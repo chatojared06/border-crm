@@ -110,8 +110,8 @@ export default function AIAgentChat() {
               {/* Burbuja del mensaje */}
               <div className={`p-3 rounded-xl shadow-sm border text-sm max-w-[80%] 
                 ${msg.sender === 'user' 
-                  ? 'bg-blue-600 text-white border-blue-700 rounded-tr-none' 
-                  : 'bg-white border-slate-100 text-slate-700 rounded-tl-none'}`}
+                  ? 'bg-blue-600 font-medium text-white border-blue-700 rounded-tr-none' 
+                  : 'bg-white border-slate-100 font-medium text-slate-800 rounded-tl-none'}`}
               >
                 {msg.sender === 'ai' ? <ReactMarkdown>{msg.text}</ReactMarkdown> : msg.text}
               </div>
@@ -124,7 +124,7 @@ export default function AIAgentChat() {
                <div className="p-2 bg-blue-100 text-blue-700 rounded-full mt-1">
                  <BrainCircuit size={16} />
                </div>
-               <div className="bg-white p-3 rounded-xl rounded-tl-none shadow-sm border border-slate-100 text-sm text-slate-500 italic">
+               <div className="bg-white p-3 rounded-xl rounded-tl-none shadow-sm border border-slate-100 text-sm font-medium text-slate-500 italic">
                  BorderAI está analizando...
                </div>
              </div>
@@ -142,7 +142,7 @@ export default function AIAgentChat() {
           <input 
             type="text" 
             placeholder="Pregúntale a BorderAI..." 
-            className="flex-1 p-2.5 bg-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+            className="flex-1 p-2.5 bg-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 font-medium text-slate-800"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}

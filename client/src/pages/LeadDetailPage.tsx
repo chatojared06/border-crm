@@ -155,14 +155,14 @@ export default function EditLeadPage() {
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Nombre Completo </label>
             <p
-            className="w-full p-2 border border-slate-300 rounded-lg" 
+            className="w-full p-2 border border-slate-300 rounded-lg font-medium text-slate-800" 
             >{formData.name}</p>
           </div>
           
            <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Correo Electrónico </label>
             <p
-            className="w-full p-2 border border-slate-300 rounded-lg" 
+            className="w-full p-2 border border-slate-300 rounded-lg font-medium text-slate-800" 
             >{formData.email}</p>
           </div>
 
@@ -170,14 +170,14 @@ export default function EditLeadPage() {
              <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Telefono </label>
             <p
-            className="w-full p-2 border border-slate-300 rounded-lg" 
+            className="w-full p-2 border border-slate-300 rounded-lg font-medium text-slate-800" 
             >{formData.phone}</p>
           </div>
 
            <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Origen </label>
                 <p
-                className="w-full p-2 border border-slate-300 rounded-lg" 
+                className="w-full p-2 border border-slate-300 rounded-lg font-medium text-slate-800" 
                 >{formData.source}</p>
            </div>
           </div>
@@ -185,7 +185,7 @@ export default function EditLeadPage() {
            <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Estado del lead </label>
             <p
-            className="w-full p-2 border border-slate-300 rounded-lg" 
+            className="w-full p-2 border border-slate-300 rounded-lg font-medium text-slate-800" 
             >{formData.status}</p>
           </div>
 
@@ -240,7 +240,7 @@ export default function EditLeadPage() {
               value={correoIA}
               onChange={(e) => setCorreoIA(e.target.value)}
               placeholder="Haz clic en 'Generar Correo' para que la IA redacte un mensaje personalizado para este cliente..."
-              className="w-full h-40 p-3 text-sm border border-indigo-200 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-indigo-400 outline-none resize-none"
+              className="w-full h-40 p-3 text-sm border border-indigo-200 rounded-lg bg-white  text-slate-800 focus:ring-2 focus:ring-indigo-400 outline-none resize-none"
             /> 
             
             </div>
