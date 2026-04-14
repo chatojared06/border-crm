@@ -143,8 +143,8 @@ export default function DashboardPage() {
               
               {leads.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="p-8 text-center text-slate-500">
-                    Aún no hay leads registrados. ¡Empieza a vender! 🚀
+                  <td colSpan={4} className="p-8 text-center font-medium text-slate-500">
+                    Sin actividad reciente. Registra tu primer prospecto para darle vida a tu CRM. ⚡
                   </td>
                 </tr>
               )}
@@ -159,22 +159,30 @@ export default function DashboardPage() {
         {/* Gráfica 1: Estados del Pipeline */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
           <h3 className="text-lg font-bold text-slate-800 mb-4">Estado del Pipeline</h3>
-          <div className="h-64 ">
-            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
-              <PieChart>
-                <Pie
-                  data={statusData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  paddingAngle={5}
-                  dataKey="value"
-                /> 
-                <RechartsTooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
+          <div className="h-64">
+            {leads.length === 0 ? (
+              <div className="h-full flex flex-col items-center justify-center text-center p-8">
+                <p className="font-medium text-slate-500">
+                  Pipeline vacío. Ingresa tus primeros contactos para empezar a medir tu proceso de ventas. 🎯
+                </p>
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+                <PieChart>
+                  <Pie
+                    data={statusData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={80}
+                    paddingAngle={5}
+                    dataKey="value"
+                  /> 
+                  <RechartsTooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            )}
           </div>
         </div>
 
@@ -182,6 +190,13 @@ export default function DashboardPage() {
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
           <h3 className="text-lg font-bold text-slate-800 mb-4">Leads por Origen</h3>
           <div className="h-64"> 
+             {leads.length === 0 ? (
+              <div className="h-full flex flex-col items-center justify-center text-center p-8">
+                <p className="font-medium text-slate-500">
+                  Sin estadísticas de canales. Agrega leads y su origen para descubrir qué red te funciona mejor. 🌐
+                </p>
+              </div>
+            ) : (
             <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
               <BarChart data={sourceData}>
                 <CartesianGrid 
@@ -213,6 +228,7 @@ export default function DashboardPage() {
                 />
               </BarChart>
             </ResponsiveContainer>
+              )}
           </div>
         </div>
       </div>
