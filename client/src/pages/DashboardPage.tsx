@@ -55,7 +55,7 @@ export default function DashboardPage() {
       <h1 className="text-2xl font-bold text-slate-800 mb-6">Resumen General</h1>
       
       {/* Tarjetas de Estadísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Tarjeta 1 */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
           <div className="flex items-center gap-4">
@@ -102,7 +102,7 @@ export default function DashboardPage() {
           <h2 className="text-xl font-bold text-slate-800">Actividad Reciente</h2>
           <Link to="/leads"
           className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors">
-            Ver todos los leads &rarr;
+            Ver todos &rarr;
           </Link>
         </div>
         
@@ -159,7 +159,7 @@ export default function DashboardPage() {
         {/* Gráfica 1: Estados del Pipeline */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
           <h3 className="text-lg font-bold text-slate-800 mb-4">Estado del Pipeline</h3>
-          <div className="h-64">
+          <div className="h-64 ">
             <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
               <PieChart>
                 <Pie
@@ -184,11 +184,33 @@ export default function DashboardPage() {
           <div className="h-64"> 
             <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
               <BarChart data={sourceData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b'}} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b'}} allowDecimals={false} />
-                <RechartsTooltip cursor={{fill: '#f8fafc'}} />
-                <Bar dataKey="cantidad" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={40} />
+                <CartesianGrid 
+                strokeDasharray="3 3" 
+                vertical={false} 
+                stroke="#e2e8f0"
+                />
+                <XAxis 
+                dataKey="name" 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{ fill: '#64748b', fontSize: 12 }} 
+                minTickGap={15} 
+                />
+                <YAxis 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{fill: '#64748b'}} 
+                allowDecimals={false} 
+                />
+                <RechartsTooltip 
+                cursor={{fill: '#f8fafc'}} 
+                />
+                <Bar 
+                dataKey="cantidad" 
+                fill="#3b82f6" 
+                radius={[4, 4, 0, 0]} 
+                barSize={40} 
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>

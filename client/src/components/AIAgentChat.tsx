@@ -81,7 +81,7 @@ export default function AIAgentChat() {
       
       {/* --- EL ÁREA DE CHAT --- */}
       <div 
-        className={`absolute bottom-0 right-0 bg-white w-full h-full rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden transition-all duration-300 ease-in-out origin-bottom-right
+        className={`absolute bottom-0 right-0 bg-white w-[calc(100vw-74px)] sm:w-96 h-125 max-h-[80vh] rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden transition-all duration-300 ease-in-out origin-bottom-right
         ${isOpen ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-50 translate-y-10 pointer-events-none'}`}
       >
         {/* Cabecera */}
