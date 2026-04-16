@@ -1,30 +1,27 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useForm } from "react-hook-form";
 import { Mail, Lock, User, ArrowRight, Eye, EyeClosed } from 'lucide-react';
 
-export const RegisterPage = () => {
-  // Estado para capturar los datos del usuario
-  const [formData, setFormData] = useState({
-    nombre: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
+// Le decimos a TypeScript exactamente qué campos esperar
+interface RegisterFormData {
+  nombre: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
+export const RegisterPage = () => {
+// ✅ El ojo se queda igual
   const [showPassword, setShowPassword] = useState(false);
 
+  // ✅ Inicializa React Hook Form
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormData>();
 
-  // Actualiza el estado cuando el usuario teclea en un input
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
 
-  // Ejecuta la acción principal al enviar el formulario
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Datos listos para enviar a Neon:', formData);
+
+  // Esta función es especial para React Hook Form. Mira los valores finales ('data').
+  const onSubmit = (data: RegisterFormData) => {
+    console.log("Datos listos y validados:", data);
   };
 
   return (
@@ -41,7 +38,7 @@ export const RegisterPage = () => {
         </div>
 
         {/* Formulario principal conectado a handleSubmit */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           
           {/* Campo: Nombre Completo */}
           <div>
@@ -56,14 +53,13 @@ export const RegisterPage = () => {
               {/* Input conectado al estado 'formData.nombre' */}
               <input
                 type="text"
-                name="nombre"
-                value={formData.nombre}
-                onChange={handleChange}
+                {...register("nombre", { required: "El nombre es obligatorio" })}
                 placeholder="Ej. Juan Pérez"
                 className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-medium text-slate-600"
                 required
               />
             </div>
+            {errors.nombre && <p className="text-red-500 text-xs mt-1">{String(errors.nombre.message)}</p>}
           </div>
 
           {/* Campo: Correo Electrónico */}
@@ -77,14 +73,19 @@ export const RegisterPage = () => {
               </div>
               <input
                 type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
+                {...register("email", { 
+                  required: "El correo es obligatorio",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Ingresa un correo electrónico válido"
+                  }
+                })}
                 placeholder="tu@email.com"
                 className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-medium text-slate-600"
                 required
               />
             </div>
+            {errors.email && <p className="text-red-500 text-xs mt-1">{String(errors.email.message)}</p>}
           </div>
 
           {/* Campo: Contraseña */}
@@ -98,9 +99,13 @@ export const RegisterPage = () => {
               </div>
               <input
                 type={showPassword ? 'text' : 'password'}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
+                {...register("password", { 
+                  required: "La contraseña es obligatoria",
+                  minLength: {
+                    value: 6,
+                    message: "La contraseña debe tener al menos 6 caracteres"
+                  }
+                })}
                 placeholder="••••••••"
                 className=" w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-medium text-slate-600"
                 required
@@ -113,6 +118,7 @@ export const RegisterPage = () => {
                 {showPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
                </button>
             </div>
+            {errors.password && <p className="text-red-500 text-xs mt-1">{String(errors.password.message)}</p>}
           </div>
 
           {/* Campo: Confirmar Contraseña */}
@@ -126,14 +132,16 @@ export const RegisterPage = () => {
               </div>
               <input
                 type={showPassword ? 'text' : 'password'}
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
+                {...register("confirmPassword", { 
+                  required: "Por favor, confirma tu contraseña",
+                  validate: (value, formValues) => value === formValues.password || "Las contraseñas no coinciden"
+                })}
                 placeholder="••••••••"
                 className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-medium text-slate-600"
                 required
               />
             </div>
+            {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{String(errors.confirmPassword.message)}</p>}
           </div>
 
           {/* Botón de Enviar */}
