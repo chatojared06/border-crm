@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
-import { Lock, Mail, ArrowRight, Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Lock, Mail, ArrowRight, Loader2, Eye, EyeClosed } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import api from "../lib/axios";
+import { useState } from "react";
 
 // Definimos la forma exacta que tendrán los datos del formulario
 interface LoginForm {
@@ -14,6 +15,9 @@ interface LoginForm {
 export default function LoginPage() {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginForm>();
   const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+  
 
   const onSubmit: SubmitHandler<LoginForm> = async (data) => {
     try {
@@ -63,16 +67,24 @@ export default function LoginPage() {
             {errors.email && <p className="text-red-500 text-xs mt-1">{String(errors.email.message)}</p>}
           </div>
 
+          {/* Campo Contraseña con botón para mostrar/ocultar */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Contraseña</label>
             <div className="relative">
               <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
               <input
                 {...register("password", { required: "La contraseña es obligatoria" })}
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                 placeholder="••••••••"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                {showPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
+               </button>
             </div>
             {errors.password && <p className="text-red-500 text-xs mt-1">{String(errors.password.message)}</p>}
           </div>
@@ -95,7 +107,10 @@ export default function LoginPage() {
         </form>
 
         <div className="mt-6 text-center text-sm text-slate-500">
-          ¿No tienes cuenta? <span className="text-blue-600 font-medium cursor-pointer">Contacta al admin</span>
+          ¿No tienes cuenta?
+          <Link to="/register" className="text-blue-600 font-medium ml-1">
+            Regístrate aquí
+          </Link>
         </div>
       </div>
     </div>

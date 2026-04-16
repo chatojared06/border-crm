@@ -10,6 +10,7 @@ import NewLeadPage from './pages/NewLeadPage';
 import EditLeadPage from './pages/EditLeadPage';
 import PipelinePage from './pages/PipelinePage';
 import SettingsPage from './pages/SettingsPage';
+import { RegisterPage } from './pages/RegisterPage';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         {/* 1. RUTA PÚBLICA: Cualquiera puede entrar aquí */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         
         {/* 2. RUTAS PRIVADAS*/}
         <Route element={
