@@ -11,17 +11,36 @@ interface RegisterFormData {
 }
 
 export const RegisterPage = () => {
-// ✅ El ojo se queda igual
   const [showPassword, setShowPassword] = useState(false);
 
-  // ✅ Inicializa React Hook Form
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormData>();
 
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.nombre, 
+          email: data.email,
+          password: data.password
+        }),
+      });
 
+      const result = await response.json();
 
-  // Esta función es especial para React Hook Form. Mira los valores finales ('data').
-  const onSubmit = (data: RegisterFormData) => {
-    console.log("Datos listos y validados:", data);
+      if (response.ok) {
+        console.log("¡Registro Exitoso!", result);
+        alert("¡Cuenta creada con éxito!");
+      } else {
+        console.error("Error del servidor:", result.error);
+        alert(result.error || "Ocurrió un error al registrarse");
+      }
+
+    } catch (error) {
+      console.error("Error de conexión:", error);
+      alert("No se pudo conectar con el servidor.");
+    }
   };
 
   return (

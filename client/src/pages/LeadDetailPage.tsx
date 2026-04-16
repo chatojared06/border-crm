@@ -210,7 +210,7 @@ export default function EditLeadPage() {
                 title="Copiar correo"
               >
                 <Copy size={18} />
-                <span>Copiar Texto</span> {/* Añadido texto para mayor claridad y ancho completo */}
+                <span>Copiar Texto</span> 
               </button>
               
               {/* Botón 2: Enviar por Gmail (Solo aparece si hay correoIA) */}
@@ -222,7 +222,7 @@ export default function EditLeadPage() {
                   title="Abrir en Gmail"
                 >
                   <Mail size={18} />
-                  <span>Enviar por Gmail</span> {/* Añadido texto para mayor claridad y ancho completo */}
+                  <span>Enviar por Gmail</span> 
                 </button>
               )}
               
