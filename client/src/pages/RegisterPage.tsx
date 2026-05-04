@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { Mail, Lock, User, ArrowRight, Eye, EyeClosed } from 'lucide-react';
+import api from '../lib/axios';
 
 // Le decimos a TypeScript exactamente qué campos esperar
 interface RegisterFormData {
@@ -17,25 +18,13 @@ export const RegisterPage = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: data.nombre, 
-          email: data.email,
-          password: data.password
-        }),
+      await api.post('/auth/register', {
+        name: data.nombre, 
+        email: data.email,
+        password: data.password
       });
 
-      const result = await response.json();
-
-      if (response.ok) {
-        console.log("¡Registro Exitoso!", result);
-        alert("¡Cuenta creada con éxito!");
-      } else {
-        console.error("Error del servidor:", result.error);
-        alert(result.error || "Ocurrió un error al registrarse");
-      }
+      alert("¡Cuenta creada con éxito!");
 
     } catch (error) {
       console.error("Error de conexión:", error);

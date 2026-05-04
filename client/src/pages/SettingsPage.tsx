@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { User, Bell, Shield, Lock } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+import { isAxiosError } from "axios";
+import api from "../lib/axios"; 
 
 interface MiToken {
   userId: number;
@@ -9,8 +15,26 @@ interface MiToken {
   exp: number;
 }
 
+interface UsuarioState {
+  userId?: number;
+  email: string;
+  rol: string;
+}
+
+const passwordSchema = z.object({
+  currentPassword: z.string().min(1, "La contraseña actual es requerida"),
+  newPassword: z.string().min(8, "La nueva contraseña debe tener al menos 8 caracteres"),
+  confirmPassword: z.string()
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "Las contraseñas no coinciden",
+  path: ["confirmPassword"],
+});
+
+type PasswordFormValues = z.infer<typeof passwordSchema>;
+
+
 export default function SettingsPage() {
-  const [usuario] = useState(() => {
+  const [usuario] = useState<UsuarioState>(() => {
     const token = localStorage.getItem("token");
     
     if (!token) {
@@ -19,14 +43,50 @@ export default function SettingsPage() {
     
     try {
       const decoded = jwtDecode<MiToken>(token);
-      return { email: decoded.email, rol: "Administrador" };
+      return { userId: decoded.userId, email: decoded.email, rol: "Administrador" };
     } catch {
       return { email: "Token inválido", rol: "Invitado" };
     }
   });
 
   const [activeTab, setActiveTab] = useState("perfil");
-  const [passwordVerificada, setPasswordVerificada] = useState(false);
+  
+  // 1. Inicializamos React Hook Form con Zod
+  const { 
+    register, 
+    handleSubmit, 
+    reset, 
+    formState: { errors, isSubmitting } 
+  } = useForm<PasswordFormValues>({
+    resolver: zodResolver(passwordSchema) 
+  });
+
+  // 2. Función que ejecuta el Submit
+  const onSubmitPassword = async (data: PasswordFormValues) => {
+    try {
+      if (!usuario.userId) {
+        toast.error("Usuario no válido");
+        return;
+      }
+      
+      // Hacemos la petición PUT a tu backend
+      await api.put('/auth/change-password', {
+        userId: usuario.userId,
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+      });
+
+      toast.success("¡Contraseña actualizada con éxito! 🔒");
+      reset(); // Limpiamos los inputs
+      setActiveTab("perfil");
+    } catch (error) {
+      if (isAxiosError(error)) {
+        toast.error(error.response?.data?.error || "Ocurrió un error al cambiar la contraseña");
+      } else {
+        toast.error("Ocurrió un error al cambiar la contraseña");
+      }
+    }
+  };
   
   return (
     <div className="max-w-4xl mx-auto">
@@ -158,93 +218,72 @@ export default function SettingsPage() {
             <div className="space-y-6 animate-fade-in">
               
               {/* 🛡️ TARJETA 1: Cambio de Contraseña */}
+              {/* 🛡️ TARJETA 1: Cambio de Contraseña */}
               <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                 <h2 className="text-lg font-semibold text-slate-800 mb-1">Cambiar Contraseña</h2>
                 <p className="text-sm text-slate-500 mb-6">Asegúrate de usar una contraseña larga y segura.</p>
                 
-                {/* LÓGICA DE 2 PASOS */}
-                {!passwordVerificada ? (
-                  
-                  /* PASO 1: VERIFICAR IDENTIDAD */
-                  <form 
-                    className="space-y-4 max-w-md" 
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      // Aquí en el futuro llamaríamos al backend. Por ahora, solo simulamos el éxito:
-                      setPasswordVerificada(true); 
-                    }}
-                  >
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Ingresa tu Contraseña Actual</label>
+                {/* FORMULARIO ÚNICO CON REACT HOOK FORM */}
+                <form 
+                  className="space-y-4 max-w-md animate-fade-in" 
+                  onSubmit={handleSubmit(onSubmitPassword)}
+                >
+                  {/* 1. Contraseña Actual */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Contraseña Actual</label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
                       <input 
                         type="password" 
                         placeholder="••••••••" 
-                        required
-                        className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" 
+                        {...register("currentPassword")}
+                        className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${errors.currentPassword ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-blue-500'} focus:ring-2 outline-none transition-all`}
                       />
                     </div>
-                    <button type="submit" className="bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-900 transition-colors">
-                      Verificar Identidad
+                    {errors.currentPassword && <p className="text-red-500 text-xs mt-1">{errors.currentPassword.message}</p>}
+                  </div>
+
+                  {/* 2. Nueva Contraseña */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Nueva Contraseña</label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+                      <input
+                        type="password"
+                        placeholder="••••••••"
+                        {...register("newPassword")}
+                        className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${errors.newPassword ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-blue-500'} focus:ring-2 outline-none transition-all`}
+                      />
+                    </div>
+                    {errors.newPassword && <p className="text-red-500 text-xs mt-1">{errors.newPassword.message}</p>}
+                  </div>
+
+                  {/* 3. Confirmar Contraseña */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Confirmar Nueva Contraseña</label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+                      <input
+                        type="password"
+                        placeholder="••••••••"
+                        {...register("confirmPassword")}
+                        className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${errors.confirmPassword ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-blue-500'} focus:ring-2 outline-none transition-all`}
+                      />
+                    </div>
+                    {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>}
+                  </div>
+                  
+                  {/* Botón de Submit */}
+                  <div className="pt-2">
+                    <button 
+                      type="submit" 
+                      disabled={isSubmitting}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center min-w-45"
+                    >
+                      {isSubmitting ? "Actualizando..." : "Guardar Nueva Contraseña"}
                     </button>
-                  </form>
-
-                ) : (
-
-                  /* PASO 2: INGRESAR NUEVA CONTRASEÑA */
-                  <form 
-                    className="space-y-4 max-w-md animate-fade-in"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      // Simulamos que se guardó la contraseña y reiniciamos el flujo
-                      alert("¡Contraseña actualizada con éxito! 🔒");
-                      setPasswordVerificada(false);
-                    }}
-                  >
-                    <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-lg text-sm font-medium mb-4">
-                      ✅ Identidad verificada. Ingresa tu nueva contraseña.
-                    </div>
-                    
-                    {/* RETO: Pon aquí tus dos inputs (Nueva Contraseña y Confirmar Contraseña) */}
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Nueva Contraseña</label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
-                        <input
-                          type="password"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                          placeholder="••••••••"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Confirmar Nueva Contraseña</label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
-                        <input
-                          type="password"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                          placeholder="••••••••"
-                        />
-                      </div>
-                    </div>
-                    
-                    
-                    <div className="flex gap-3 pt-2">
-                      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                        Guardar Nueva Contraseña
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={() => setPasswordVerificada(false)}
-                        className="bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors"
-                      >
-                        Cancelar
-                      </button>
-                    </div>
-                  </form>
-
-                )}
+                  </div>
+                </form>
               </div>
 
               {/* 📱 TARJETA 2: Autenticación de Dos Pasos (2FA) */}

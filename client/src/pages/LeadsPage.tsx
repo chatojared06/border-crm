@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
+import api from "../lib/axios";
 
 // Definimos la "forma" de un Lead en TypeScript para que nos ayude a autocompletar
 interface Lead {
@@ -20,9 +21,8 @@ export default function LeadsPage() {
 
   // useEffect se ejecuta automáticamente cuando entras a la página
   useEffect(() => {
-    fetch("https://border-crm.onrender.com/api/leads")
-      .then((respuesta) => respuesta.json())
-      .then((datos) => setLeads(datos))
+    api.get("/leads")
+      .then((respuesta) => setLeads(respuesta.data))
       .catch((error) => console.error("Error al cargar leads:", error));
   }, []);
 
@@ -32,16 +32,9 @@ export default function LeadsPage() {
   if (!confirmar) return;
 
   try {
-    const respuesta = await fetch(`https://border-crm.onrender.com/api/leads/${id}`, {
-        method: "DELETE",
-    });
-    if (respuesta.ok) {
-        // 2. Si el backend confirma que se eliminó, actualizamos la lista en el frontend
-        setLeads(leads.filter((lead) => lead.id !== id));
-    } else {
-        console.error("Error al eliminar el prospecto");
-    }
-    
+    await api.delete(`/leads/${id}`);
+    // 2. Si el backend confirma que se eliminó, actualizamos la lista en el frontend
+    setLeads(leads.filter((lead) => lead.id !== id));
   } catch (error) {
     console.error("Error al eliminar:", error);
   }

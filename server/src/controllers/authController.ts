@@ -87,3 +87,43 @@ export const login = async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Error al iniciar sesión' });
     }
 };
+
+
+// Función para cambiar la contraseña 
+export const changePassword = async (req: Request, res: Response) => {
+    try {
+        // 1. Extraer los datos
+        const { userId, currentPassword, newPassword } = req.body;
+
+        // 2. Buscar al usuario
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+
+        // 3. Validar existencia
+        if (!user) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        // 4. Comprobar contraseña actual
+        const validPassword = await bcrypt.compare(currentPassword, user.password);
+
+        // 5. Rechazo (si aplica)
+        if (!validPassword) {
+            return res.status(400).json({ error: 'La contraseña actual es incorrecta' });
+        }
+
+        // 6. Encriptar la nueva
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // 7. Actualizar en Neon
+        await prisma.user.update({
+            where: { id: userId },
+            data: { password: hashedPassword }
+        });
+
+        // 8. Responder
+        res.json({ message: 'Contraseña actualizada exitosamente' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al cambiar la contraseña' });
+    }
+};

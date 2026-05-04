@@ -29,10 +29,9 @@ export default function EditLeadPage() {
   const [generando, setGenerando] = useState(false);
 
   useEffect(() => {
-    fetch("https://border-crm.onrender.com/api/leads")
-      .then((res) => res.json())
-      .then((datos) => {
-        const leadActual = datos.find((l: Lead) => l.id === Number(id));
+    api.get("/leads")
+      .then((res) => {
+        const leadActual = res.data.find((l: Lead) => l.id === Number(id));
         if (leadActual) {
           setFormData({
             name: leadActual.name,
@@ -251,4 +250,3 @@ export default function EditLeadPage() {
     </div>
   );
 }
-

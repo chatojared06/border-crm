@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { DollarSign, Users, Briefcase, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PieChart, Pie, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import api from "../lib/axios";
 
 // Definimos la "forma" de un Lead en TypeScript para que nos ayude a autocompletar
 interface Lead {
@@ -27,9 +28,8 @@ export default function DashboardPage() {
 
   // useEffect se ejecuta automáticamente cuando entras a la página
   useEffect(() => {
-    fetch("https://border-crm.onrender.com/api/leads")
-      .then((respuesta) => respuesta.json())
-      .then((datos) => setLeads(datos))
+    api.get("/leads")
+      .then((respuesta) => setLeads(respuesta.data))
       .catch((error) => console.error("Error al cargar leads:", error));
   }, []);
 

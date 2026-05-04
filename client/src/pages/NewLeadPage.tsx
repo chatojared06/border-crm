@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner"; // Para mostrar la notificación de éxito
+import api from "../lib/axios";
 
 export default function NewLeadPage() {
   const navigate = useNavigate();
@@ -26,20 +27,9 @@ export default function NewLeadPage() {
     e.preventDefault(); // Evita que la página recargue
 
     try {
-      const respuesta = await fetch("https://border-crm.onrender.com/api/leads", {
-        method: "POST", // Le decimos al backend "Quiero CREAR algo"
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData), // Convertimos nuestros datos a texto para enviarlos
-      });
-
-      if (respuesta.ok) {
-        toast.success("Lead guardado correctamente 🚀");
-        navigate("/leads"); // Te regresa a la tabla de leads
-      } else {
-        toast.error("Hubo un error al guardar");
-      }
+      await api.post("/leads", formData);
+      toast.success("Lead guardado correctamente 🚀");
+      navigate("/leads"); // Te regresa a la tabla de leads
     } catch (error) {
       console.error(error);
       toast.error("Error de conexión con el servidor");
