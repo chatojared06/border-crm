@@ -6,7 +6,7 @@
     "moduleResolution": "node16",                        /* Cómo Node busca los archivos importados */
     
     /* Rutas de Archivos */
-    "rootDir": "./src",                                  /* Dónde vive nuestro código fuente */
+    "rootDir": "./",                                  /* Dónde vive nuestro código fuente */
     "outDir": "./dist",                                  /* Dónde guardamos el código compilado para producción */
     
     /* Interoperabilidad */
@@ -15,8 +15,9 @@
 
     /* Reglas Estrictas (Calidad de Código) */
     "strict": true,                                      /* Activa todas las reglas estrictas de tipeado */
-    "skipLibCheck": true                                 /* Salta chequeo de tipos en librerías externas para ganar velocidad */
+    "skipLibCheck": true,                                 /* Salta chequeo de tipos en librerías externas para ganar velocidad */
+    "types": ["node"]
   },
-  "include": ["src/**/*"],                               /* Incluir todo lo que esté en src */
+  "include": ["src/**/*", "prisma/**/*"],
   "exclude": ["node_modules"]                            /* Ignorar node_modules */
 }
