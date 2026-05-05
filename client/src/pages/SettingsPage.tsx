@@ -70,7 +70,7 @@ export default function SettingsPage() {
       }
       
       // Hacemos la petición PUT a tu backend
-      await api.put('/auth/change-password', {
+      await api.put('api/auth/change-password', {
         userId: usuario.userId,
         currentPassword: data.currentPassword,
         newPassword: data.newPassword,

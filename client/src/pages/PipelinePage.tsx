@@ -21,7 +21,7 @@ export default function PipelinePage() {
   const [leads, setLeads] = useState<Lead[]>([]);
 
   useEffect(() => {
-    api.get("/leads")
+    api.get("api/leads")
       .then((respuesta) => setLeads(respuesta.data))
       .catch((error) => console.error("Error al cargar leads:", error));
   }, []);

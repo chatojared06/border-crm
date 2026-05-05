@@ -27,9 +27,9 @@ export default function NewLeadPage() {
     e.preventDefault(); // Evita que la página recargue
 
     try {
-      await api.post("/leads", formData);
+      await api.post("api/leads", formData);
       toast.success("Lead guardado correctamente 🚀");
-      navigate("/leads"); // Te regresa a la tabla de leads
+      navigate("api/leads"); // Te regresa a la tabla de leads
     } catch (error) {
       console.error(error);
       toast.error("Error de conexión con el servidor");

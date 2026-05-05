@@ -18,7 +18,7 @@ export const RegisterPage = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      await api.post('/auth/register', {
+      await api.post('/api/auth/register', {
         name: data.nombre, 
         email: data.email,
         password: data.password

@@ -22,7 +22,7 @@ export default function LoginPage() {
   const onSubmit: SubmitHandler<LoginForm> = async (data) => {
     try {
       // 1. Enviar datos al backend
-      const response = await api.post("/auth/login", data);
+      const response = await api.post('/api/auth/login', data);
       
       // 2. Si todo sale bien: Guardar el token en el navegador
       localStorage.setItem("token", response.data.token);

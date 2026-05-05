@@ -29,7 +29,7 @@ export default function EditLeadPage() {
   const [generando, setGenerando] = useState(false);
 
   useEffect(() => {
-    api.get("/leads")
+    api.get("api/leads")
       .then((res) => {
         const leadActual = res.data.find((l: Lead) => l.id === Number(id));
         if (leadActual) {

@@ -1,13 +1,14 @@
-// client/src/lib/axios.ts
-import axios from "axios";
+import axios from 'axios';
+
+const baseURL = import.meta.env.VITE_API_URL || 'https://border-crm.onrender.com';
 
 const api = axios.create({
-  baseURL: "https://border-crm.onrender.com/api" 
+  baseURL,
 });
 
-// Interceptor: Antes de cada petición, pega el token si existe
+// Interceptor para inyectar el JWT en todas las peticiones protegidas
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

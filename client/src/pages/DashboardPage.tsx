@@ -28,7 +28,7 @@ export default function DashboardPage() {
 
   // useEffect se ejecuta automáticamente cuando entras a la página
   useEffect(() => {
-    api.get("/leads")
+    api.get("/api/leads")
       .then((respuesta) => setLeads(respuesta.data))
       .catch((error) => console.error("Error al cargar leads:", error));
   }, []);

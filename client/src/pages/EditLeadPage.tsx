@@ -47,7 +47,7 @@ export default function EditLeadPage() {
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const respuesta = await api.put(`/leads/${id}`, formData);
+      const respuesta = await api.put(`api/leads/${id}`, formData);
       if (respuesta.status === 200) {
         toast.success("Prospecto actualizado 🚀");
         navigate("/leads");
