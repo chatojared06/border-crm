@@ -29,7 +29,7 @@ export default function NewLeadPage() {
     try {
       await api.post("api/leads", formData);
       toast.success("Lead guardado correctamente 🚀");
-      navigate("api/leads"); // Te regresa a la tabla de leads
+      navigate("/leads"); // Te regresa a la tabla de leads
     } catch (error) {
       console.error(error);
       toast.error("Error de conexión con el servidor");

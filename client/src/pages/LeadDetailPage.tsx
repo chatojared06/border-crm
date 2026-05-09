@@ -52,7 +52,7 @@ export default function EditLeadPage() {
 
     setGenerando(true);
     try {
-      const respuesta = await api.post("/leads/generar-correo", {
+      const respuesta = await api.post("/api/leads/generar-correo", {
         name: formData.name,
         source: formData.source,
         status: formData.status
@@ -88,7 +88,7 @@ export default function EditLeadPage() {
 
     try {
       // Llamamos a tu backend para borrarlo (verifica que esta sea tu ruta correcta)
-      await api.delete(`/leads/${id}`);
+      await api.delete(`/api/leads/${id}`);
       toast.success("Prospecto eliminado exitosamente 🗑️");
       
       // Lo mandamos de regreso a la lista principal

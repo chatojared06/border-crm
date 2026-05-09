@@ -50,11 +50,11 @@ export default function AIAgentChat() {
       setIsThinking(true);
 
       // Descargamos los leads frescos en este preciso momento 
-      const leadsResponse = await api.get('/leads'); // Llamamos a tu ruta GET de leads
+      const leadsResponse = await api.get('/api/leads'); // Llamamos a tu ruta GET de leads
       const leadsActualizados = leadsResponse.data;
 
       // Le mandamos el mensaje a la IA junto con la base de datos fresca
-      const respuesta = await api.post('/leads/chat', {
+      const respuesta = await api.post('/api/leads/chat', {
         message: inputText,
         leads: leadsActualizados // <--- ¡Le inyectamos los datos reales!
       });

@@ -47,7 +47,7 @@ export default function PipelinePage() {
 
     try {
       // 2. Guardamos el cambio en la Base de Datos
-      await api.put(`/leads/${leadId}`, { status: nuevoEstado });
+      await api.put(`/api/leads/${leadId}`, { status: nuevoEstado });
       toast.success("Estado actualizado");
     } catch (error) {
       console.error("Error al actualizar estado:", error);

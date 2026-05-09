@@ -287,7 +287,7 @@ export default function SettingsPage() {
               </div>
 
               {/* 📱 TARJETA 2: Autenticación de Dos Pasos (2FA) */}
-              <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+             {/* <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                   <h3 className="font-semibold text-slate-800">Autenticación de Dos Pasos (2FA)</h3>
                   <p className="text-sm text-slate-500 mt-1">Añade una capa extra de seguridad usando una aplicación como Google Authenticator.</p>
@@ -296,14 +296,14 @@ export default function SettingsPage() {
                 <button className="shrink-0 bg-blue-50 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors">
                   Configurar 2FA
                 </button>
-              </div>
+              </div> */}
 
               {/* 💻 TARJETA 3: Sesiones Activas */}
-              <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                <h3 className="font-semibold text-slate-800 mb-4">Dispositivos Activos</h3>
+              {/* <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <h3 className="font-semibold text-slate-800 mb-4">Dispositivos Activos</h3> {/*
                 
                 {/* Fila del dispositivo actual */}
-                <div className="flex justify-between items-center p-4 border border-slate-100 rounded-lg bg-slate-50">
+                {/*<div className="flex justify-between items-center p-4 border border-slate-100 rounded-lg bg-slate-50">
                   <div>
                     <p className="font-medium text-slate-800 text-sm">MacBook Pro - Chrome</p>
                     <p className="text-xs text-slate-500">Tijuana, MX • Activo ahora</p>
@@ -315,8 +315,8 @@ export default function SettingsPage() {
                   <button className="text-sm font-medium text-red-600 hover:text-red-700 transition-colors">
                     Cerrar sesión en otros dispositivos
                   </button>
-                </div>
-              </div>
+                </div> 
+              </div> */}
 
             </div>
           )}
