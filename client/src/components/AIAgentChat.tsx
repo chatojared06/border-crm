@@ -77,15 +77,19 @@ export default function AIAgentChat() {
   };
 
   return (
-    <div className="fixed bottom-6 right-8 z-50 w-96 h-137.5 pointer-events-none">
-      
+    <>
       {/* --- EL ÁREA DE CHAT --- */}
       <div 
-        className={`absolute bottom-0 right-0 bg-white w-[calc(100vw-74px)] sm:w-96 h-125 max-h-[80vh] rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden transition-all duration-300 ease-in-out origin-bottom-right
-        ${isOpen ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-50 translate-y-10 pointer-events-none'}`}
+        className={`fixed z-50 bg-white flex flex-col shadow-2xl transition-all duration-300 ease-in-out overflow-hidden
+        /* MÓVIL: Pantalla completa (Cubre toda la pantalla sin bordes) */
+        inset-0 w-full h-[100dvh] rounded-none
+        /* TABLET / PC: Flotante abajo a la derecha (Cambiamos md: por sm:) */
+        sm:inset-auto sm:bottom-6 sm:right-8 sm:w-96 sm:h-125 sm:max-h-[80vh] sm:rounded-2xl sm:border sm:border-slate-200
+        ${isOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none sm:translate-y-10 sm:scale-50'}`}
+        style={{ transformOrigin: 'bottom right' }}
       >
         {/* Cabecera */}
-        <div className="bg-blue-600 p-4 text-white flex justify-between items-center shadow-md">
+        <div className="bg-blue-600 p-4 text-white flex justify-between items-center shadow-md shrink-0">
           <div className="flex items-center gap-2">
             <BrainCircuit size={20} />
             <h3 className="font-bold text-lg">BorderAI</h3>
@@ -98,17 +102,12 @@ export default function AIAgentChat() {
         {/* --- HISTORIAL DE MENSAJES DINÁMICO --- */}
         <div className="flex-1 p-4 space-y-4 overflow-y-auto bg-slate-50">
           
-          {/* Recorremos el arreglo de mensajes */}
           {messages.map((msg) => (
             <div key={msg.id} className={`flex items-start gap-2 ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}>
-              
-              {/* Icono del remitente */}
-              <div className={`p-2 rounded-full mt-1 ${msg.sender === 'user' ? 'bg-slate-200 text-slate-600' : 'bg-blue-100 text-blue-700'}`}>
+              <div className={`p-2 rounded-full mt-1 shrink-0 ${msg.sender === 'user' ? 'bg-slate-200 text-slate-600' : 'bg-blue-100 text-blue-700'}`}>
                 {msg.sender === 'user' ? <User size={16} /> : <BrainCircuit size={16} />}
               </div>
-              
-              {/* Burbuja del mensaje */}
-              <div className={`p-3 rounded-xl shadow-sm border text-sm max-w-[80%] 
+              <div className={`p-3 rounded-xl shadow-sm border text-sm max-w-[80%] break-words
                 ${msg.sender === 'user' 
                   ? 'bg-blue-600 font-medium text-white border-blue-700 rounded-tr-none' 
                   : 'bg-white border-slate-100 font-medium text-slate-800 rounded-tl-none'}`}
@@ -118,10 +117,9 @@ export default function AIAgentChat() {
             </div>
           ))}
 
-          {/* --- INDICADOR DE "PENSANDO" (Aparece si isThinking es true) --- */}
           {isThinking && (
              <div className="flex items-start gap-2 animate-pulse">
-               <div className="p-2 bg-blue-100 text-blue-700 rounded-full mt-1">
+               <div className="p-2 bg-blue-100 text-blue-700 rounded-full mt-1 shrink-0">
                  <BrainCircuit size={16} />
                </div>
                <div className="bg-white p-3 rounded-xl rounded-tl-none shadow-sm border border-slate-100 text-sm font-medium text-slate-500 italic">
@@ -129,16 +127,11 @@ export default function AIAgentChat() {
                </div>
              </div>
           )}
-          
           <div ref={messagesEndRef} />
-
         </div>
 
-        
-
         {/* --- CAJA DE TEXTO Y BOTÓN --- */}
-        <div className="p-3 bg-white border-t border-slate-100 flex items-center gap-2">
-          
+        <div className="p-3 pb-6 sm:pb-3 bg-white border-t border-slate-100 flex items-center gap-2 shrink-0">
           <input 
             type="text" 
             placeholder="Pregúntale a BorderAI..." 
@@ -147,8 +140,7 @@ export default function AIAgentChat() {
             onChange={(e) => setInputText(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
           />
-    
-          <button onClick={handleSendMessage} className="p-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-sm disabled:opacity-50">
+          <button onClick={handleSendMessage} className="p-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-sm disabled:opacity-50 shrink-0">
             <SendHorizontal size={18} />
           </button>
         </div>
@@ -157,13 +149,12 @@ export default function AIAgentChat() {
       {/* --- EL BOTÓN DISPARADOR --- */}
       <button 
         onClick={() => setIsOpen(true)}
-        className={`absolute bottom-0 right-0 flex items-center gap-3 bg-blue-600 text-white md:px-3 md:py-3 px-4 py-4 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 ease-in-out origin-center
+        className={`fixed bottom-6 right-6 sm:right-8 z-40 flex items-center gap-3 bg-blue-600 text-white p-4 sm:px-5 sm:py-4 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 ease-in-out
         ${isOpen ? 'opacity-0 scale-50 pointer-events-none' : 'opacity-100 scale-100 pointer-events-auto hover:scale-105'}`}
       >
         <BrainCircuit size={24} />
-        <span className="font-bold text-lg hidden md:inline">Hablar con Agente</span>
+        <span className="font-bold text-lg hidden sm:inline">Hablar con Agente</span>
       </button>
-
-    </div>
+    </>
   );
 }
