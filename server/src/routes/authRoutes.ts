@@ -1,8 +1,7 @@
 import { Router } from 'express';
-// 1. Importamos el nuevo controlador changePassword
-import { register, login, changePassword } from '../controllers/authController';
-// 2. Importamos a nuestro "cadenero"
+import { register, login, changePassword, deleteAccount } from '../controllers/authController';
 import { verifyToken } from '../middlewares/authMiddleware';
+
 
 const router = Router();
 
@@ -10,7 +9,10 @@ const router = Router();
 router.post('/register', register);
 router.post('/login', login);
 
-// 3. Ruta Privada: Primero pasa por verifyToken, si todo sale bien, pasa a changePassword
+// Ruta para cambiar contraseña, protegida por el middleware de autenticación
 router.put('/change-password', verifyToken, changePassword);
+
+// Ruta para eliminar cuenta, protegida por el middleware de autenticación
+router.delete('/delete-account', verifyToken, deleteAccount);
 
 export default router;

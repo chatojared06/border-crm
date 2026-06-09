@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { User, Bell, Shield, Lock } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 import { useForm } from "react-hook-form";
@@ -51,6 +52,12 @@ export default function SettingsPage() {
 
   const [activeTab, setActiveTab] = useState("perfil");
   
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deletePassword, setDeletePassword] = useState('');
+  const [deleteError, setDeleteError] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const navigate = useNavigate();
+
   // 1. Inicializamos React Hook Form con Zod
   const { 
     register, 
@@ -68,7 +75,7 @@ export default function SettingsPage() {
         toast.error("Usuario no válido");
         return;
       }
-      
+
       // Hacemos la petición PUT a tu backend
       await api.put('api/auth/change-password', {
         userId: usuario.userId,
@@ -87,8 +94,32 @@ export default function SettingsPage() {
       }
     }
   };
+
+  const handleDeleteAccount = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setDeleteError('');
+    setIsDeleting(true);
+
+    try {
+      await api.delete('/api/auth/delete-account', {
+        data: { password: deletePassword },
+      });
+      
+      localStorage.removeItem('token'); 
+      navigate('/login');
+      toast.success("¡Cuenta eliminada con éxito!");
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        setDeleteError(error.response?.data?.error || 'Error al intentar eliminar la cuenta.');
+      } else {
+        setDeleteError('Error al intentar eliminar la cuenta.');
+      }
+    } finally {
+      setIsDeleting(false);
+    }
+  };
   
-  return (
+  return (       
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold text-slate-800 mb-6">Configuración del Sistema</h1>
 
@@ -285,42 +316,66 @@ export default function SettingsPage() {
                   </div>
                 </form>
               </div>
-
-              {/* 📱 TARJETA 2: Autenticación de Dos Pasos (2FA) */}
-             {/* <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                  <h3 className="font-semibold text-slate-800">Autenticación de Dos Pasos (2FA)</h3>
-                  <p className="text-sm text-slate-500 mt-1">Añade una capa extra de seguridad usando una aplicación como Google Authenticator.</p>
-                </div>
-                
-                <button className="shrink-0 bg-blue-50 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors">
-                  Configurar 2FA
-                </button>
-              </div> */}
-
-              {/* 💻 TARJETA 3: Sesiones Activas */}
-              {/* <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                <h3 className="font-semibold text-slate-800 mb-4">Dispositivos Activos</h3> {/*
-                
-                {/* Fila del dispositivo actual */}
-                {/*<div className="flex justify-between items-center p-4 border border-slate-100 rounded-lg bg-slate-50">
-                  <div>
-                    <p className="font-medium text-slate-800 text-sm">MacBook Pro - Chrome</p>
-                    <p className="text-xs text-slate-500">Tijuana, MX • Activo ahora</p>
-                  </div>
-                  <span className="text-xs font-bold text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full">Actual</span>
-                </div>
-
-                <div className="mt-4">
-                  <button className="text-sm font-medium text-red-600 hover:text-red-700 transition-colors">
-                    Cerrar sesión en otros dispositivos
-                  </button>
-                </div> 
-              </div> */}
-
             </div>
           )}
+          {/* --- ZONA DE PELIGRO --- */}
+              <div className="mt-12 border-t border-red-200 pt-6 animate-fade-in">
+                <h3 className="text-lg font-bold text-red-600">Zona de Peligro</h3>
+                <p className="mt-1 text-sm text-gray-500 mb-4">
+                  Al eliminar tu cuenta, todos tus prospectos (Leads) y datos operativos en BorderCRM se borrarán permanentemente.
+                </p>
 
+                {!showDeleteConfirm ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowDeleteConfirm(true)}
+                    className="bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-colors"
+                  >
+                    Eliminar mi cuenta
+                  </button>
+                ) : (
+                  <form onSubmit={handleDeleteAccount} className="max-w-md bg-red-50 p-5 rounded-xl border border-red-200 shadow-sm">
+                    <label className="block text-sm font-medium text-red-800 mb-2">
+                      Por seguridad, introduce tu contraseña actual para confirmar:
+                    </label>
+                    <input
+                      type="password"
+                      value={deletePassword}
+                      onChange={(e) => setDeletePassword(e.target.value)}
+                      className="w-full px-3 py-2 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all"
+                      placeholder="••••••••"
+                      required
+                      disabled={isDeleting}
+                    />
+                    
+                    {deleteError && (
+                      <p className="mt-2 text-sm text-red-600 font-medium">{deleteError}</p>
+                    )}
+
+                    <div className="mt-4 flex gap-3">
+                      <button
+                        type="submit"
+                        disabled={isDeleting}
+                        className="bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
+                      >
+                        {isDeleting ? 'Eliminando...' : 'Confirmar Eliminación'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowDeleteConfirm(false);
+                          setDeletePassword('');
+                          setDeleteError('');
+                        }}
+                        className="bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-semibold py-2 px-4 rounded-lg transition-colors"
+                        disabled={isDeleting}
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
         </div>
       </div>
     </div>

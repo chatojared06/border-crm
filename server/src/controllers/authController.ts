@@ -1,4 +1,4 @@
-// server/src/controllers/authController.ts
+import { z } from 'zod';
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
@@ -126,4 +126,49 @@ export const changePassword = async (req: Request, res: Response) => {
         console.error(error);
         res.status(500).json({ error: 'Error al cambiar la contraseña' });
     }
+};
+
+// Función para eliminar la cuenta (Delete Account)
+const deleteAccountSchema = z.object({
+  password: z.string().min(1, 'La contraseña es requerida para confirmar.'),
+});
+
+export const deleteAccount = async (req: Request, res: Response): Promise<void> => {
+  try {
+    
+    const userId = (req as any).userId; 
+    if (!userId) {
+      res.status(401).json({ error: 'No autorizado.' });
+      return;
+    }
+
+    const { password } = deleteAccountSchema.parse(req.body);
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      res.status(404).json({ error: 'Usuario no encontrado.' });
+      return;
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      res.status(400).json({ error: 'Contraseña incorrecta. No se pudo eliminar la cuenta.' });
+      return;
+    }
+
+    await prisma.user.delete({
+      where: { id: userId },
+    });
+
+    res.status(200).json({ message: 'Cuenta eliminada exitosamente.' });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: error.issues[0].message });
+      return;
+    }
+    res.status(500).json({ error: 'Error interno del servidor.' });
+  }
 };
