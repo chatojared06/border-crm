@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { Mail, Lock, User, ArrowRight, Eye, EyeClosed } from 'lucide-react';
+import { toast } from "sonner";
 import api from '../lib/axios';
 
 // Le decimos a TypeScript exactamente qué campos esperar
@@ -13,6 +15,8 @@ interface RegisterFormData {
 
 export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+
 
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormData>();
 
@@ -24,11 +28,12 @@ export const RegisterPage = () => {
         password: data.password
       });
 
-      alert("¡Cuenta creada con éxito!");
+      toast.success("¡Cuenta creada con éxito!");
+      navigate('/login');
 
     } catch (error) {
       console.error("Error de conexión:", error);
-      alert("No se pudo conectar con el servidor.");
+      toast.error("No se pudo conectar con el servidor.");
     }
   };
 
